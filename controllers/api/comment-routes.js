@@ -46,4 +46,11 @@ router.post('/', withAuth, async (req, res) => {
     }
 });
 
+//need to add a delete comment route
+
+// delete comment by id ('api/comment/:id')
+router.delete('/:id', withAuth, async (req, res) => {
+
+});
+
 module.exports = router;
