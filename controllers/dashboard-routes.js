@@ -46,14 +46,19 @@ router.get('/edit/:id', withAuth, (req, res) => {
         attributes: ['id', 'title', 'content', 'created_at'],
         include: [
             {
-                model: User,
-                attributes: ['username'],
+             model: User,
+             attributes: ['username'],
             },
             {
-                
-            }
-        ]
-      })
+             model: Comment,
+             attributes: ['id', 'comment', 'postId', 'userId', 'created_at'],
+             include: {
+             model: User,
+             attributes: ['username'],
+            },
+        },
+     ],
+    })
 
 })
 module.exports = router; 
