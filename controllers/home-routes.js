@@ -9,4 +9,22 @@ router.get('/', async (req, res) => {
           // Retrieve all posts from db
         const dbPostData = await Post.findAll({ 
             attributes: ['id', 'title', 'content', 'created_at'],           
-            include:
+            include: [
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment', 'postId', 'userId', 'created_at'],
+                    include: {
+                        model: User,
+                        attributes: ['username'],
+                    },
+                },
+                {
+                    model: User,
+                    attributes: ['username'],
+                },
+            ],
+            order: [['created_at', 'DESC']],
+        })
+        // Serialize data retrieved
+        const posts = dbPostData.map((post) => post.get({ plain: true }));
+        console.log(posts)
