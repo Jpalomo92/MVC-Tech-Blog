@@ -39,7 +39,11 @@ router.get('/', withAuth, (req, res) => {
 
 //get a post to edit it
 router.get('/edit/:id', withAuth, (req, res) => { 
+    Post.findOne({
+        where: {
+          
+        }
+      })
 
-    
 })
 module.exports = router; 
