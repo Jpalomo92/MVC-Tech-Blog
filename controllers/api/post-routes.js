@@ -13,3 +13,18 @@ router.post('/', withAuth, async (req, res) => {
     }
 });
 
+// edit post ('/api/post/:id')
+router.put('/:id', withAuth, async (req, res) => {
+    try {
+      const updatedPost = await Post.update(
+        {
+          title: req.body.title,
+          content: req.body.content,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+  
