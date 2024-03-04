@@ -11,3 +11,18 @@
             {{> commentcard post.comments}}
     </div>
 </div>
+
+<input type="hidden" name="post-id" value="{{post.id}}"/>
+
+{{#if loggedIn}}
+<div class="card">
+    <div class="card-header"></div>
+    <form class="card-body comment-form">
+        <p class="form-label">Leave Comment:</p>
+        <textarea class="form-input" id="comment" name="comment-body"></textarea>    
+        <button type="submit" class="btn btn-primary">Submit Comment</button>        
+    </form>               
+</div>
+{{/if}}
+
+<script src="/js/comment.js"></script>
