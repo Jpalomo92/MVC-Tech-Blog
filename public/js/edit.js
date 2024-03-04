@@ -1,6 +1,3 @@
-const id = window.location.toString().split('/')[window.location.toString().split('/').length - 1];
-
-
 // Click on edit post
 
 const editHandler = async (event) => {
@@ -24,4 +21,4 @@ const editHandler = async (event) => {
     }
 };
 
-document.querySelector('.edit-form').addEventListener('submit', editHandler);
+const id = window.location.toString().split('/')[window.location.toString().split('/').length - 1];
