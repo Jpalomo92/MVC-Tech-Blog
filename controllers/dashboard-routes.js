@@ -27,3 +27,10 @@ router.get('/', withAuth, (req, res) => {
         },
       ],
     })
+    .then(() => {
+      
+      })
+      .catch((err) => {
+
+    });
+});
