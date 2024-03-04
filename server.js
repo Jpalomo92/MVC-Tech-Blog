@@ -15,3 +15,30 @@ const routes = require('./controllers');
 const sequelize = require('./config/connection');
 
 
+// Initialize an instance of Express.js
+const app = express();
+// Specify which port the Express.js server will run.
+// process.env.PORT stores the port number on which a web server should listen for incoming connections.
+const PORT = process.env.PORT || 3001;
+
+// Setting the session middleware.
+// Server creates a session for tracking the user, including the data in the requests and responses between the client and server.
+const sess = {
+    // It holds the secret key for session
+    secret: 'Super secret secret',
+    cookie: {
+        maxAge: 300000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict',
+    },
+    // Forces the session to be saved back to the session store
+    // It will not rewrite the req.session.cookie object.  The initial req.session.cookie remains as it is.
+    resave: false,
+    // Forces a session that is "uninitialized" to be saved to the store
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
+
