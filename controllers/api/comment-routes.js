@@ -20,13 +20,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const CommentData = await Comment.findAll({
-            where:
+            where: { id: req.params.id },
         });
-        if (dbCommentData.length === 0) {
-            res.status(404).json({ message: 'Please be sure to add content to your comment.'});
+        if (CommentData.length === 0) {
+            res.status(404).json({ message: `The id ${req.params.id} has no comments.`});
             return;
         };
-        res.status(200).json(dbCommentData);
+        res.status(200).json(CommentData);
     } catch (err) {
         res.status(500).json(err);
     }
