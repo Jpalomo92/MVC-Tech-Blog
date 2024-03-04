@@ -12,3 +12,18 @@ router.get('/', withAuth, (req, res) => {
       },
       attributes: ['id', 'title', 'content', 'created_at'],
       order: [['created_at', 'DESC']],
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment', 'postId', 'userId', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username'],
+          },
+        },
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
+    })
