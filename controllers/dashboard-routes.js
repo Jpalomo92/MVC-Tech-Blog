@@ -36,3 +36,10 @@ router.get('/', withAuth, (req, res) => {
         res.status(500).json(err);
     });
 });
+
+//get a post to edit it
+router.get('/edit/:id', withAuth, (req, res) => { 
+
+    
+})
+module.exports = router; 
