@@ -55,6 +55,16 @@ router.get('/post/:id', async (req, res) => {
                    model: User,
                    attributes: ['username'],
                  },
-
-
+                },
+                {
+                  model: User,
+                  attributes: ['username'],
+                },
+          ],
+      });
+      if (dbPostData) {
+          const post = dbPostData.get({ plain: true });
+          console.log(post);
+          res.render('single-post', { post, loggedIn: req.session.loggedIn, username: req.session.username, })  
+    
 module.exports = router; 
