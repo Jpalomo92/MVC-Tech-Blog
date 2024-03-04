@@ -66,5 +66,13 @@ router.get('/post/:id', async (req, res) => {
           const post = dbPostData.get({ plain: true });
           console.log(post);
           res.render('single-post', { post, loggedIn: req.session.loggedIn, username: req.session.username, })  
-    
+        } else {
+            res.status(404).json({ message: "This id has no post."});
+            return;
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }   
+   });
+   
 module.exports = router; 
