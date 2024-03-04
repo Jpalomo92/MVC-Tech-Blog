@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
-const sequelize = require('../config/config');
+const sequelize = require('../config/connection');
 
 //not sure if I should pull in withAuth constant??
 
