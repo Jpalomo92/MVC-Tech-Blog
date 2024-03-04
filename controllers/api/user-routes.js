@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Post, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // this will sign up the user through the user api path (api/user)
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
         // check pw
         const pwValidated = await dbUserData.checkPassword(req.body.password)
         if (!pwValidated) {
-            res.status(400).json({ message: "User information is not valid." });
+            res.status(400).json({ message: "Incorrect password!" });
             return;
         }
         // create session and send response back
@@ -45,3 +45,21 @@ router.post('/login', async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.get("/logout",(req,res)=>{
+    req.session.destroy();
+    res.redirect('/');
+})
+
+router.get("/:id", (req, res) => {
+    User.findByPk(req.params.id,{include:[Post , Comment]})
+      .then(dbUser => {
+        res.json(dbUser);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ msg: "an error occured", err });
+      });
+});
+
+module.exports = router;
