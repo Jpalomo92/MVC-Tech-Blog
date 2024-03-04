@@ -42,3 +42,26 @@ const sess = {
     })
 };
 
+// Session Setup
+app.use(session(sess));
+
+// Incorporate the custom helper methods
+const hbs = exphbs.create({ helpers });
+
+// Set Handlebars as the default template engine
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+// Middleware for parsing JSON and urlencoded form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Turn on routes
+app.use(routes);
+
+// Sync sequelize models to the database, then turn on the server
+// listen() method is responsible for listening for incoming connections on the specified port
+sequelize.sync({ force: false }).then(() => {
+    app.listen(PORT, () => console.log('Now listening at Port 3001'));
+});
