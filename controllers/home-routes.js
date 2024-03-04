@@ -81,6 +81,6 @@ router.get('/post/:id', async (req, res) => {
             res.redirect('/');
             return;
         };
-
-      
+        res.render('login');
+       });
 module.exports = router; 
