@@ -1,0 +1,13 @@
+<p class="col-md-6 col-lg-4 mb-5">Please log in to leave comments</p>
+<div class="">
+    <div class="">
+        <h5 class="card-title float-left">{{post.title}}</h5>
+        <h6 class="card-subtitle mb-2 float-right">Posted by {{post.user.username}} on {{formatDate post.created_at}}</h6>
+    </div>
+    <div class="card-body">  
+        <p class="card-text">{{post.content}}</p>
+    </div>
+    <div class="card-body comment">
+            {{> commentcard post.comments}}
+    </div>
+</div>
