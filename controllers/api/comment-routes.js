@@ -50,7 +50,20 @@ router.post('/', withAuth, async (req, res) => {
 
 // delete comment by id ('api/comment/:id')
 router.delete('/:id', withAuth, async (req, res) => {
-
+    try {
+        const dbCommentData = await Comment.destroy({
+          where: {id: req.params.id},
+        });        
+        if (!dbCommentData) {
+          res.status(404).json({
+            message: `No comment is found with id = ${req.params.id}`,
+          });
+          return;
+        }  
+        res.status(200).json({dbCommentData, success: true});
+      } catch (err) {
+        res.status(500).json(err);
+      }
 });
 
 module.exports = router;
