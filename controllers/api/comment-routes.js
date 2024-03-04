@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     try {
         const dbCommentData = await Comment.findAll({});
         if (dbCommentData.length === 0) {
-            res.status(404).json({ message: 'Please be sure to add content to your comment.'});
+            res.status(404).json({ message: 'You have no comments yet :/'});
             return;
         };
         res.status(200).json(dbCommentData);
@@ -31,3 +31,19 @@ router.get('/:id', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// post a comment /api/comment
+router.post('/', withAuth, async (req, res) => {
+    const body = req.body;
+    try {
+        const newComment = await Comment.create({
+            ...body,
+            userId: req.session.userId,
+        });
+        res.status(200).json({ newComment, success: true });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;
