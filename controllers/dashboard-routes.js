@@ -59,6 +59,17 @@ router.get('/edit/:id', withAuth, (req, res) => {
         },
      ],
     })
-
+    .then((dbPostData) => {
+        if (!dbPostData) {
+         res.status(404).json({ message: 'This id has no post.' });
+         return; 
+        }
+        const post = dbPostData.get({ plain: true });
+        res.render('edit-post', { post, loggedIn: true, username: req.session.username });
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
 })
 module.exports = router; 
