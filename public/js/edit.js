@@ -24,3 +24,4 @@ const editHandler = async (event) => {
     }
 };
 
+document.querySelector('.edit-form').addEventListener('submit', editHandler);
