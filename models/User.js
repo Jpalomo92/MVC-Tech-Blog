@@ -1,44 +1,53 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const bcrypt = require('bcrypt');
+const sequelize = require('../config/config');
 
-class User extends Model {}
+class User extends Model {
+    checkPassword(loginPW) {
+        return bcrypt.compareSync(loginPW, this.password);
+    }
+}
 
-    User.init(
-        {
-            id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true
+User.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [4],
+              },
+        },
+    },
+    {
+        hooks: {
+            async beforeCreate(newUserData) {
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
+                return newUserData;
             },
-            comment: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            userId: {
-                type: DataTypes.INTEGER,
-                allowNull : false,
-                references: {
-                    model: 'user',
-                    key: 'id',
-                },
-            },
-            postId: {
-                type: DataTypes.INTEGER,
-                allowNull : false,
-                references: {
-                    model: 'post',
-                    key: 'id',
-                },
+            async beforeUpdate(updateUserData) {
+                updateUserData.password = await bcrypt.hash(
+                    updateUserData.password,
+                    10
+                );
+                return updateUserData;
             },
         },
-        {
-            sequelize,
-            freezeTableName: true,
-            underscored: true,
-            modelName: 'user',
-        }
-        
-    );
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'user'
+    });
 
-    module.exports = User;
+module.exports = User;
